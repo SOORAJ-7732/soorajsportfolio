@@ -1,15 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { Github, Linkedin, Mail, Menu, X, ArrowUp, Download } from "lucide-react";
+import { Github, Linkedin, Mail, Menu, X, ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PROFILE } from "@/data/portfolio";
 
 const LINKS = [
+  { href: "/#home", label: "Home" },
   { href: "/#about", label: "About" },
-  { href: "/#education", label: "Education" },
-  { href: "/#experience", label: "Experience" },
   { href: "/#skills", label: "Skills" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#achievements", label: "Achievements" },
+  { href: "/#journey", label: "Journey" },
+  { href: "/#projects", label: "Portfolio" },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -18,7 +17,7 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -27,23 +26,23 @@ export function SiteHeader() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "glass" : "bg-transparent"
+        scrolled ? "bg-primary shadow-[var(--shadow-card)]" : "bg-transparent"
       }`}
     >
       <nav
         aria-label="Main navigation"
-        className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 lg:flex lg:justify-between"
+        className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-5 lg:flex lg:justify-between"
       >
-        <Link to="/" className="min-w-0 text-lg font-bold tracking-tight">
-          Sooraj<span className="text-primary">.</span>S
+        <Link to="/" className="min-w-0 text-xl font-bold tracking-tight text-primary-foreground">
+          Sooraj<span className="text-accent">.</span>
         </Link>
 
-        <ul className="hidden items-center gap-6 lg:flex">
+        <ul className="hidden items-center gap-7 lg:flex">
           {LINKS.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="text-sm font-medium text-primary-foreground/75 transition-colors hover:text-accent"
               >
                 {l.label}
               </a>
@@ -52,8 +51,8 @@ export function SiteHeader() {
           <li>
             <Link
               to="/resume"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground text-sm" }}
+              className="text-sm font-medium text-primary-foreground/75 transition-colors hover:text-accent"
+              activeProps={{ className: "text-sm font-medium text-accent" }}
             >
               Resume
             </Link>
@@ -62,9 +61,9 @@ export function SiteHeader() {
             <a
               href={PROFILE.resume}
               download
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.03]"
+              className="inline-flex shrink-0 items-center rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground transition-transform hover:scale-105"
             >
-              <Download size={15} aria-hidden="true" /> Resume
+              Download CV
             </a>
           </li>
         </ul>
@@ -74,30 +73,43 @@ export function SiteHeader() {
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-border lg:hidden"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-primary-foreground/25 text-primary-foreground lg:hidden"
         >
           {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
         </button>
       </nav>
 
       {open ? (
-        <div className="glass border-t border-border lg:hidden">
-          <ul className="mx-auto max-w-6xl px-5 py-4">
+        <div className="bg-primary lg:hidden">
+          <ul className="mx-auto max-w-6xl px-5 pb-5">
             {LINKS.map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block py-3 text-sm text-muted-foreground"
+                  className="block py-3 text-sm text-primary-foreground/80"
                 >
                   {l.label}
                 </a>
               </li>
             ))}
             <li>
-              <Link to="/resume" onClick={() => setOpen(false)} className="block py-3 text-sm text-muted-foreground">
+              <Link
+                to="/resume"
+                onClick={() => setOpen(false)}
+                className="block py-3 text-sm text-primary-foreground/80"
+              >
                 Resume
               </Link>
+            </li>
+            <li className="pt-2">
+              <a
+                href={PROFILE.resume}
+                download
+                className="inline-flex rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground"
+              >
+                Download CV
+              </a>
             </li>
           </ul>
         </div>
@@ -106,7 +118,7 @@ export function SiteHeader() {
   );
 }
 
-export function SocialLinks({ size = 18 }: { size?: number }) {
+export function SocialLinks({ onDark = false }: { onDark?: boolean }) {
   const items = [
     { href: PROFILE.github, label: "GitHub profile", Icon: Github },
     { href: PROFILE.linkedin, label: "LinkedIn profile", Icon: Linkedin },
@@ -121,9 +133,13 @@ export function SocialLinks({ size = 18 }: { size?: number }) {
             aria-label={label}
             target={href.startsWith("http") ? "_blank" : undefined}
             rel="noreferrer"
-            className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-card/60 text-muted-foreground transition-all hover:-translate-y-1 hover:border-primary/50 hover:text-foreground"
+            className={`grid h-11 w-11 place-items-center rounded-full transition-all hover:-translate-y-1 ${
+              onDark
+                ? "bg-primary-foreground/12 text-primary-foreground hover:bg-accent hover:text-accent-foreground"
+                : "bg-secondary text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+            }`}
           >
-            <Icon size={size} aria-hidden="true" />
+            <Icon size={18} aria-hidden="true" />
           </a>
         </li>
       ))}
@@ -133,19 +149,19 @@ export function SocialLinks({ size = 18 }: { size?: number }) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-card/40">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-12 text-center">
-        <SocialLinks />
+    <footer className="hero-band">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-14 text-center">
+        <SocialLinks onDark />
         <div>
-          <p className="text-sm text-foreground">© 2026 Sooraj S</p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-sm font-semibold text-primary-foreground">© 2026 Sooraj S</p>
+          <p className="mt-1 text-sm text-primary-foreground/70">
             Designed with passion for Software Engineering and Artificial Intelligence.
           </p>
         </div>
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-transform hover:scale-105"
         >
           <ArrowUp size={15} aria-hidden="true" /> Back to Top
         </button>
