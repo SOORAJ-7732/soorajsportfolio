@@ -57,7 +57,7 @@ function ResumePage() {
         </Reveal>
 
         <Reveal>
-          <div className="glass overflow-hidden rounded-3xl p-2">
+          <div className="soft-card overflow-hidden rounded-3xl p-2">
             <object
               data={PROFILE.resume}
               type="application/pdf"
