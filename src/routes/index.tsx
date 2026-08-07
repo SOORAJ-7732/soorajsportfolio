@@ -196,7 +196,6 @@ function Hero() {
             alt="Portrait of Sooraj S, aspiring software engineer"
             width={448}
             height={560}
-
             className="relative z-10 mx-auto w-full max-w-sm object-contain drop-shadow-2xl"
           />
           <div className="absolute bottom-8 right-0 z-20 flex items-center gap-3 rounded-2xl bg-card px-4 py-3 shadow-[var(--shadow-lift)]">
