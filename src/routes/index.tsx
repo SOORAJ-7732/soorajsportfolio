@@ -27,7 +27,9 @@ import { SiteHeader, SiteFooter, SocialLinks } from "@/components/site-chrome";
 import { Reveal, SectionHeading, TypingText, Counter } from "@/components/motion-primitives";
 import { ACHIEVEMENTS, PROFILE, PROJECTS, SKILLS, TYPING_WORDS } from "@/data/portfolio";
 import portrait from "@/assets/portrait.jpg";
-import portraitCutout from "@/assets/portrait-cutout.png";
+import portraitCutoutAsset from "@/assets/sooraj-portrait.png.asset.json";
+
+const portraitCutout = portraitCutoutAsset.url;
 import projectPayroll from "@/assets/project-payroll.jpg";
 import projectDeepfake from "@/assets/project-deepfake.jpg";
 import projectHealth from "@/assets/project-health.jpg";
