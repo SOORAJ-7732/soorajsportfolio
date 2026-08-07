@@ -26,7 +26,9 @@ import { toast } from "sonner";
 import { SiteHeader, SiteFooter, SocialLinks } from "@/components/site-chrome";
 import { Reveal, SectionHeading, TypingText, Counter } from "@/components/motion-primitives";
 import { ACHIEVEMENTS, PROFILE, PROJECTS, SKILLS, TYPING_WORDS } from "@/data/portfolio";
-import portrait from "@/assets/portrait.jpg";
+import portraitAsset from "@/assets/sooraj-about.jpg.asset.json";
+
+const portrait = portraitAsset.url;
 import portraitCutoutAsset from "@/assets/sooraj-hero.png.asset.json";
 
 const portraitCutout = portraitCutoutAsset.url;
@@ -282,8 +284,8 @@ function About() {
             src={portrait}
             alt="Sooraj S working on software projects"
             loading="lazy"
-            width={912}
-            height={1104}
+            width={1281}
+            height={769}
             className="relative aspect-square w-full rounded-full object-cover object-top"
           />
         </Reveal>
