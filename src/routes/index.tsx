@@ -27,7 +27,9 @@ import { SiteHeader, SiteFooter, SocialLinks } from "@/components/site-chrome";
 import { Reveal, SectionHeading, TypingText, Counter } from "@/components/motion-primitives";
 import { ACHIEVEMENTS, PROFILE, PROJECTS, SKILLS, TYPING_WORDS } from "@/data/portfolio";
 import portrait from "@/assets/portrait.jpg";
-import portraitCutout from "@/assets/portrait-cutout.png";
+import portraitCutoutAsset from "@/assets/sooraj-portrait.png.asset.json";
+
+const portraitCutout = portraitCutoutAsset.url;
 import projectPayroll from "@/assets/project-payroll.jpg";
 import projectDeepfake from "@/assets/project-deepfake.jpg";
 import projectHealth from "@/assets/project-health.jpg";
@@ -192,8 +194,8 @@ function Hero() {
           <img
             src={portraitCutout}
             alt="Portrait of Sooraj S, aspiring software engineer"
-            width={912}
-            height={1200}
+            width={448}
+            height={560}
             className="relative z-10 mx-auto w-full max-w-sm object-contain drop-shadow-2xl"
           />
           <div className="absolute bottom-8 right-0 z-20 flex items-center gap-3 rounded-2xl bg-card px-4 py-3 shadow-[var(--shadow-lift)]">
