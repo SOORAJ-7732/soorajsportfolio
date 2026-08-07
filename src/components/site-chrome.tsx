@@ -34,7 +34,7 @@ export function SiteHeader() {
         className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-5 lg:flex lg:justify-between"
       >
         <Link to="/" className="min-w-0 text-xl font-bold tracking-tight text-primary-foreground">
-          Sooraj<span className="text-accent"> S</span>
+          Sooraj<span className="text-primary-foreground"> S</span>
         </Link>
 
         <ul className="hidden items-center gap-7 lg:flex">
