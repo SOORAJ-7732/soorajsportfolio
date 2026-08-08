@@ -27,7 +27,7 @@ export const SKILLS = [
   { category: "AI & Machine Learning", items: ["Artificial Intelligence", "Machine Learning Fundamentals"] },
   {
     category: "Soft Skills",
-    items: ["Problem Solving", "Communication", "Adaptability", "Teamwork"],
+    items: ["Problem Solving", "Communication", "Teamwork"],
   },
 ];
 
