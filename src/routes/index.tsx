@@ -246,7 +246,9 @@ function Skills() {
                   <h3 className="mt-6 text-lg font-semibold">{group.category}</h3>
                   <ul
                     className={`mt-4 flex gap-2 ${
-                      group.category === "Soft Skills" ? "flex-col items-start" : "flex-wrap"
+                      group.category === "Soft Skills" || group.category === "Tools & Platforms"
+                        ? "flex-col items-start"
+                        : "flex-wrap"
                     }`}
                   >
                     {group.items.map((item) => (
