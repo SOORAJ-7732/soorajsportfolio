@@ -84,7 +84,8 @@ export const ACHIEVEMENTS = [
   },
   {
     title: "IBM Z Datathon 2024",
-    description: "Participated in IBM's flagship datathon, building data-driven solutions under time constraints.",
+    description:
+      "Participated in the IBM Z Datathon 2024, a global 24-hour datathon hosted by Shooting Stars Foundation and powered by IBM. Collaborated on data-driven solutions addressing real-world challenges.",
   },
   {
     title: "Innovation Excellence Award",
