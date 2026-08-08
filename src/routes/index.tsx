@@ -244,7 +244,11 @@ function Skills() {
                     <Icon size={22} aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 text-lg font-semibold">{group.category}</h3>
-                  <ul className="mt-4 flex flex-wrap gap-2">
+                  <ul
+                    className={`mt-4 flex gap-2 ${
+                      group.category === "Soft Skills" ? "flex-col items-start" : "flex-wrap"
+                    }`}
+                  >
                     {group.items.map((item) => (
                       <li
                         key={item}
