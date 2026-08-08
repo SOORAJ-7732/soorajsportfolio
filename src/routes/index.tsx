@@ -228,7 +228,7 @@ function Skills() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SKILLS.map((group, i) => {
             const Icon = SKILL_ICONS[i] ?? Code2;
-            const featured = i === 1;
+            const featured = true;
             return (
               <Reveal key={group.category} delay={i * 0.07}>
                 <div
