@@ -80,7 +80,8 @@ export const PROJECTS = [
 export const ACHIEVEMENTS = [
   {
     title: "Best Idea Presentation Award",
-    description: "Recognized for presenting the most compelling solution idea among participating teams.",
+    description:
+      "Presented an innovative idea titled “Optimizing the Riding Quality” at the Internal Smart India Hackathon 2023 and won the Best Idea Presentation Award for creativity and problem-solving.",
   },
   {
     title: "IBM Z Datathon 2024",
