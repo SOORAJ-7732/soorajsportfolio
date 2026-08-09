@@ -90,6 +90,7 @@ export const ACHIEVEMENTS = [
   },
   {
     title: "Innovation Excellence Award",
-    description: "Awarded for innovative thinking and creative problem solving in a technical challenge.",
+    description:
+      "Received the Innovation Excellence Award 2025 for the AI Health Assistant System – Symptom Checker & Diet Recommendation project, recognized for innovation and presented during the Miniproject Review 2025.",
   },
 ];
