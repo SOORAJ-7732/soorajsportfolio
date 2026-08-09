@@ -34,9 +34,9 @@ import portraitCutoutAsset from "@/assets/sooraj-hero.png.asset.json";
 const portraitCutout = portraitCutoutAsset.url;
 import projectPayrollAsset from "@/assets/payroll-dashboard.jpg.asset.json";
 import projectDeepfake from "@/assets/project-deepfake.jpg";
-import projectHealth from "@/assets/project-health.jpg";
+import projectHealthAsset from "@/assets/health-assistant.png.asset.json";
 
-const PROJECT_IMAGES = [projectPayrollAsset.url, projectDeepfake, projectHealth];
+const PROJECT_IMAGES = [projectPayrollAsset.url, projectDeepfake, projectHealthAsset.url];
 const SKILL_ICONS = [Code2, Database, Wrench, BrainCircuit, Users];
 
 export const Route = createFileRoute("/")({
