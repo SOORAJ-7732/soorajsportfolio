@@ -64,7 +64,7 @@ export const PROJECTS = [
   {
     title: "AI Health Assistant System",
     subtitle: "Symptom Checker & Diet Recommendation",
-    duration: "September 2025 – Present",
+    duration: "September 2025 – 2026",
     tech: ["Python", "TypeScript", "Mistral 7B", "LoRA"],
     description:
       "Built an AI-powered health assistant capable of predicting possible health conditions from user-entered symptoms and recommending personalized diet plans through an intuitive interface.",
