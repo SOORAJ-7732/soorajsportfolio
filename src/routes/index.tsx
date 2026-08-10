@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "motion/react";
+import emailjs from "@emailjs/browser";
+import { z } from "zod";
+
 import {
   ArrowRight,
   Award,
