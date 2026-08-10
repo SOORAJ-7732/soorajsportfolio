@@ -705,25 +705,29 @@ function Contact() {
           </div>
 
           <Reveal delay={0.1}>
-            <form
-              className="soft-card rounded-3xl p-7 sm:p-9"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSending(true);
-                const form = e.currentTarget;
-                setTimeout(() => {
-                  setSending(false);
-                  form.reset();
-                  toast.success("Thanks! Your message has been noted — I'll reply by email soon.");
-                }, 700);
-              }}
-            >
+            <form className="soft-card rounded-3xl p-7 sm:p-9" onSubmit={handleSubmit} noValidate>
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="company">Company</label>
+                <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field id="name" label="Name" type="text" placeholder="Your name" />
-                <Field id="email" label="Email" type="email" placeholder="you@example.com" />
+                <Field id="name" label="Name" type="text" placeholder="Your name" error={errors.name} />
+                <Field
+                  id="email"
+                  label="Email"
+                  type="email"
+                  placeholder="you@example.com"
+                  error={errors.email}
+                />
               </div>
               <div className="mt-5">
-                <Field id="subject" label="Subject" type="text" placeholder="What is this about?" />
+                <Field
+                  id="subject"
+                  label="Subject"
+                  type="text"
+                  placeholder="What is this about?"
+                  error={errors.subject}
+                />
               </div>
               <div className="mt-5">
                 <label htmlFor="message" className="eyebrow">
@@ -732,11 +736,15 @@ function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  required
                   rows={5}
+                  maxLength={1000}
                   placeholder="Write your message..."
+                  aria-invalid={errors.message ? true : undefined}
                   className="mt-2 w-full rounded-2xl border border-input bg-secondary/60 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary"
                 />
+                {errors.message ? (
+                  <p className="mt-2 text-xs text-destructive">{errors.message}</p>
+                ) : null}
               </div>
               <button
                 type="submit"
@@ -746,6 +754,7 @@ function Contact() {
                 <Send size={16} aria-hidden="true" /> {sending ? "Sending..." : "Send Message"}
               </button>
             </form>
+
           </Reveal>
         </div>
       </div>
