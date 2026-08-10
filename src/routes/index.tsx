@@ -767,11 +767,13 @@ function Field({
   label,
   type,
   placeholder,
+  error,
 }: {
   id: string;
   label: string;
   type: string;
   placeholder: string;
+  error?: string | undefined;
 }) {
   return (
     <div>
@@ -782,10 +784,12 @@ function Field({
         id={id}
         name={id}
         type={type}
-        required
         placeholder={placeholder}
+        aria-invalid={error ? true : undefined}
         className="mt-2 w-full rounded-2xl border border-input bg-secondary/60 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary"
       />
+      {error ? <p className="mt-2 text-xs text-destructive">{error}</p> : null}
     </div>
   );
 }
+
