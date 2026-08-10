@@ -569,8 +569,91 @@ function Projects() {
 
 /* --------------------------------- CONTACT -------------------------------- */
 
+const EMAILJS_SERVICE_ID = "service_l227156";
+const EMAILJS_TEMPLATE_ID = "template_jkdzfq6";
+const EMAILJS_PUBLIC_KEY = "T7pg3pnHbjHr97zYC";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, { message: "Please enter your name" }).max(100, {
+    message: "Name must be under 100 characters",
+  }),
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: "Please enter your email" })
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be under 255 characters" }),
+  subject: z.string().trim().min(1, { message: "Please enter a subject" }).max(150, {
+    message: "Subject must be under 150 characters",
+  }),
+  message: z.string().trim().min(1, { message: "Please enter a message" }).max(1000, {
+    message: "Message must be under 1000 characters",
+  }),
+});
+
+type ContactErrors = Partial<Record<"name" | "email" | "subject" | "message", string>>;
+
 function Contact() {
   const [sending, setSending] = useState(false);
+  const [errors, setErrors] = useState<ContactErrors>({});
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    // Honeypot — bots fill hidden fields; silently pretend success.
+    if (String(data.get("company") ?? "").trim() !== "") {
+      form.reset();
+      toast.success("Thanks! Your message has been sent.");
+      return;
+    }
+
+    const parsed = contactSchema.safeParse({
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      subject: String(data.get("subject") ?? ""),
+      message: String(data.get("message") ?? ""),
+    });
+
+    if (!parsed.success) {
+      const next: ContactErrors = {};
+      for (const issue of parsed.error.issues) {
+        const key = issue.path[0] as keyof ContactErrors;
+        if (key && !next[key]) next[key] = issue.message;
+      }
+      setErrors(next);
+      toast.error("Please fix the highlighted fields.");
+      return;
+    }
+
+    setErrors({});
+    setSending(true);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          subject: parsed.data.subject,
+          message: parsed.data.message,
+          reply_to: parsed.data.email,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY },
+      );
+      form.reset();
+      toast.success("Thanks! Your message has been sent — I'll reply by email soon.");
+    } catch (error) {
+      console.error("EmailJS send failed", error);
+      toast.error("Couldn't send your message.", {
+        description: `Please email me directly at ${PROFILE.email}.`,
+      });
+    } finally {
+      setSending(false);
+    }
+  };
+
 
   const cards = [
     { icon: Mail, label: "Email", value: PROFILE.email, href: `mailto:${PROFILE.email}` },
