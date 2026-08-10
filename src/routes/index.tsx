@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "motion/react";
+import emailjs from "@emailjs/browser";
+import { z } from "zod";
+
 import {
   ArrowRight,
   Award,
@@ -569,8 +572,91 @@ function Projects() {
 
 /* --------------------------------- CONTACT -------------------------------- */
 
+const EMAILJS_SERVICE_ID = "service_l227156";
+const EMAILJS_TEMPLATE_ID = "template_jkdzfq6";
+const EMAILJS_PUBLIC_KEY = "T7pg3pnHbjHr97zYC";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, { message: "Please enter your name" }).max(100, {
+    message: "Name must be under 100 characters",
+  }),
+  email: z
+    .string()
+    .trim()
+    .min(1, { message: "Please enter your email" })
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be under 255 characters" }),
+  subject: z.string().trim().min(1, { message: "Please enter a subject" }).max(150, {
+    message: "Subject must be under 150 characters",
+  }),
+  message: z.string().trim().min(1, { message: "Please enter a message" }).max(1000, {
+    message: "Message must be under 1000 characters",
+  }),
+});
+
+type ContactErrors = Partial<Record<"name" | "email" | "subject" | "message", string>>;
+
 function Contact() {
   const [sending, setSending] = useState(false);
+  const [errors, setErrors] = useState<ContactErrors>({});
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    // Honeypot — bots fill hidden fields; silently pretend success.
+    if (String(data.get("company") ?? "").trim() !== "") {
+      form.reset();
+      toast.success("Thanks! Your message has been sent.");
+      return;
+    }
+
+    const parsed = contactSchema.safeParse({
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      subject: String(data.get("subject") ?? ""),
+      message: String(data.get("message") ?? ""),
+    });
+
+    if (!parsed.success) {
+      const next: ContactErrors = {};
+      for (const issue of parsed.error.issues) {
+        const key = issue.path[0] as keyof ContactErrors;
+        if (key && !next[key]) next[key] = issue.message;
+      }
+      setErrors(next);
+      toast.error("Please fix the highlighted fields.");
+      return;
+    }
+
+    setErrors({});
+    setSending(true);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          subject: parsed.data.subject,
+          message: parsed.data.message,
+          reply_to: parsed.data.email,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY },
+      );
+      form.reset();
+      toast.success("Thanks! Your message has been sent — I'll reply by email soon.");
+    } catch (error) {
+      console.error("EmailJS send failed", error);
+      toast.error("Couldn't send your message.", {
+        description: `Please email me directly at ${PROFILE.email}.`,
+      });
+    } finally {
+      setSending(false);
+    }
+  };
+
 
   const cards = [
     { icon: Mail, label: "Email", value: PROFILE.email, href: `mailto:${PROFILE.email}` },
@@ -619,25 +705,29 @@ function Contact() {
           </div>
 
           <Reveal delay={0.1}>
-            <form
-              className="soft-card rounded-3xl p-7 sm:p-9"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSending(true);
-                const form = e.currentTarget;
-                setTimeout(() => {
-                  setSending(false);
-                  form.reset();
-                  toast.success("Thanks! Your message has been noted — I'll reply by email soon.");
-                }, 700);
-              }}
-            >
+            <form className="soft-card rounded-3xl p-7 sm:p-9" onSubmit={handleSubmit} noValidate>
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="company">Company</label>
+                <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field id="name" label="Name" type="text" placeholder="Your name" />
-                <Field id="email" label="Email" type="email" placeholder="you@example.com" />
+                <Field id="name" label="Name" type="text" placeholder="Your name" error={errors.name} />
+                <Field
+                  id="email"
+                  label="Email"
+                  type="email"
+                  placeholder="you@example.com"
+                  error={errors.email}
+                />
               </div>
               <div className="mt-5">
-                <Field id="subject" label="Subject" type="text" placeholder="What is this about?" />
+                <Field
+                  id="subject"
+                  label="Subject"
+                  type="text"
+                  placeholder="What is this about?"
+                  error={errors.subject}
+                />
               </div>
               <div className="mt-5">
                 <label htmlFor="message" className="eyebrow">
@@ -646,11 +736,15 @@ function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  required
                   rows={5}
+                  maxLength={1000}
                   placeholder="Write your message..."
+                  aria-invalid={errors.message ? true : undefined}
                   className="mt-2 w-full rounded-2xl border border-input bg-secondary/60 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary"
                 />
+                {errors.message ? (
+                  <p className="mt-2 text-xs text-destructive">{errors.message}</p>
+                ) : null}
               </div>
               <button
                 type="submit"
@@ -660,6 +754,7 @@ function Contact() {
                 <Send size={16} aria-hidden="true" /> {sending ? "Sending..." : "Send Message"}
               </button>
             </form>
+
           </Reveal>
         </div>
       </div>
@@ -672,11 +767,13 @@ function Field({
   label,
   type,
   placeholder,
+  error,
 }: {
   id: string;
   label: string;
   type: string;
   placeholder: string;
+  error?: string | undefined;
 }) {
   return (
     <div>
@@ -687,10 +784,12 @@ function Field({
         id={id}
         name={id}
         type={type}
-        required
         placeholder={placeholder}
+        aria-invalid={error ? true : undefined}
         className="mt-2 w-full rounded-2xl border border-input bg-secondary/60 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary"
       />
+      {error ? <p className="mt-2 text-xs text-destructive">{error}</p> : null}
     </div>
   );
 }
+
