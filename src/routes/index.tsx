@@ -643,10 +643,17 @@ function Contact() {
           email: parsed.data.email,
           from_email: parsed.data.email,
           user_email: parsed.data.email,
+          mail: parsed.data.email,
+          e_mail: parsed.data.email,
+          email_id: parsed.data.email,
+          emailid: parsed.data.email,
+          user_mail: parsed.data.email,
+          sender_email: parsed.data.email,
           title: parsed.data.subject,
           subject: parsed.data.subject,
           message: parsed.data.message,
           reply_to: parsed.data.email,
+
         },
         { publicKey: EMAILJS_PUBLIC_KEY },
       );
