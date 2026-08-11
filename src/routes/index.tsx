@@ -638,7 +638,12 @@ function Contact() {
         EMAILJS_TEMPLATE_ID,
         {
           name: parsed.data.name,
+          from_name: parsed.data.name,
+          user_name: parsed.data.name,
           email: parsed.data.email,
+          from_email: parsed.data.email,
+          user_email: parsed.data.email,
+          title: parsed.data.subject,
           subject: parsed.data.subject,
           message: parsed.data.message,
           reply_to: parsed.data.email,
