@@ -159,7 +159,7 @@ function Hero() {
             </a>
             <a
               href={PROFILE.resume}
-              download
+              download="Sooraj_S_Resume.pdf"
               className="inline-flex items-center gap-3 text-sm font-semibold text-primary-foreground"
             >
               <span className="grid h-10 w-10 place-items-center rounded-full border border-primary-foreground/40">
