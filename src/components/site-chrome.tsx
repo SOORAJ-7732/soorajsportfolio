@@ -60,7 +60,7 @@ export function SiteHeader() {
           <li>
             <a
               href={PROFILE.resume}
-              download
+              download="Sooraj_S_Resume.pdf"
               className="inline-flex shrink-0 items-center rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground transition-transform hover:scale-105"
             >
               Download CV
@@ -105,7 +105,7 @@ export function SiteHeader() {
             <li className="pt-2">
               <a
                 href={PROFILE.resume}
-                download
+                download="Sooraj_S_Resume.pdf"
                 className="inline-flex rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground"
               >
                 Download CV
