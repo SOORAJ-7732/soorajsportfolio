@@ -545,7 +545,7 @@ function Projects() {
 
                   <div className="mt-6 flex flex-wrap gap-3 pt-2">
                     <a
-                      href={PROFILE.github}
+                      href={p.repo || PROFILE.github}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-primary-foreground transition-transform hover:scale-105"
