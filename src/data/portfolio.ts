@@ -34,6 +34,7 @@ export const SKILLS = [
 export const PROJECTS = [
   {
     title: "Employee Payroll Management System",
+    repo: "https://github.com/SOORAJ-7732/Employee-Payroll-Management-System",
     duration: "April 2026 – July 2026",
     tech: ["Java SE 17", "Java Swing", "AWT"],
     description:
