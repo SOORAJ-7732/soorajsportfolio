@@ -122,7 +122,11 @@ export function SocialLinks({ onDark = false }: { onDark?: boolean }) {
   const items = [
     { href: PROFILE.github, label: "GitHub profile", Icon: Github },
     { href: PROFILE.linkedin, label: "LinkedIn profile", Icon: Linkedin },
-    { href: `mailto:${PROFILE.email}`, label: "Send an email", Icon: Mail },
+    {
+      href: `https://mail.google.com/mail/?view=cm&fs=1&to=${PROFILE.email}`,
+      label: "Send an email",
+      Icon: Mail,
+    },
   ];
   return (
     <ul className="flex items-center gap-3">
