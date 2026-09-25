@@ -16,7 +16,8 @@ function walk(dir) {
       const src = readFileSync(p, "utf8");
       const out = src
         .replaceAll("/__l5e/", `${LIVE}/__l5e/`)
-        .replace(/(["'`(])\/(resume\.pdf|favicon\.ico|robots\.txt|#)/g, `$1${BASE}/$2`);
+        .replace(/(["'`(])\/(resume\.pdf|favicon\.ico|robots\.txt|#)/g, `$1${BASE}/$2`)
+        .replaceAll('href="/"', `href="${BASE}/"`);
       if (out !== src) writeFileSync(p, out);
     }
   }
