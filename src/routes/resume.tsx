@@ -30,7 +30,7 @@ export const Route = createFileRoute("/resume")({
 function ResumePage() {
   return (
     <div className="min-h-dvh">
-      <SiteHeader />
+      <SiteHeader solid />
       <main className="mx-auto max-w-4xl px-4 pb-20 pt-28 sm:px-6 sm:pt-32">
         <div className="mb-7 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
           <div>
