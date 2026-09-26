@@ -19,7 +19,7 @@ export default defineConfig(
         tanstackStart: {
           server: { entry: "server" },
           router: { basepath: PAGES_BASE },
-          prerender: { enabled: true, crawlLinks: true, autoSubfolderIndex: true },
+          prerender: { enabled: true, autoStaticPathsDiscovery: false },
           pages: [{ path: "/" }, { path: "/resume" }],
         },
       }
