@@ -3,6 +3,7 @@
 // - hardcoded root links (/resume.pdf, /#about, /favicon.ico) get the /soorajsportfolio/ prefix
 import { readdirSync, readFileSync, writeFileSync, statSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 
 const OUT = "dist/client";
 const BASE = "/soorajsportfolio";
@@ -23,6 +24,12 @@ function walk(dir) {
   }
 }
 walk(OUT);
+// The PDF must never pass through text decoding. Restore the exact source bytes after prerendering.
+const sourcePdf = readFileSync("public/resume.pdf");
+copyFileSync("public/resume.pdf", join(OUT, "resume.pdf"));
+const publishedPdf = readFileSync(join(OUT, "resume.pdf"));
+const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+if (hash(sourcePdf) !== hash(publishedPdf)) throw new Error("Resume PDF was altered during the Pages build");
 // SPA fallback + disable Jekyll processing
 copyFileSync(join(OUT, "index.html"), join(OUT, "404.html"));
 writeFileSync(join(OUT, ".nojekyll"), "");

@@ -12,7 +12,7 @@ const LINKS = [
   { href: "/#contact", label: "Contact" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ solid = false }: { solid?: boolean }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -26,7 +26,7 @@ export function SiteHeader() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-primary shadow-[var(--shadow-card)]" : "bg-transparent"
+        scrolled || solid ? "bg-primary shadow-[var(--shadow-card)]" : "bg-transparent"
       }`}
     >
       <nav

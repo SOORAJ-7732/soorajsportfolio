@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the resume page as readable HTML sourced from the uploaded PDF, with the original PDF at `public/resume.pdf` for viewing and downloading, so visitors can read it even if their browser cannot embed PDFs.
+- Copy and hash-check the source PDF after GitHub Pages prerendering, so text processing cannot corrupt the downloadable binary.

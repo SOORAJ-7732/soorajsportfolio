@@ -22,6 +22,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run build:pages
+      - name: Verify resume PDF is unchanged
+        run: cmp public/resume.pdf dist/client/resume.pdf
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/client
